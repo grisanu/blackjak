@@ -1,0 +1,51 @@
+.default {
+	width: 6em;
+	height: 8em;
+	margin: 0em 0em 0.5em 0em;
+}
+
+.splitMin {
+	width: 3em;
+	height: 4em;
+	margin: 0em 0em 0em 0em;
+}
+
+.splMinRotate {
+	width: 3em;
+	height: 4em;
+	margin: 0em 0em 0em 0.5em;
+	-webkit-transform: rotate(90deg);
+}
+
+.defaultB {
+	width: 6em;
+	height: 8.4em;
+	margin: 0em 0em 0.5em 0em;
+}
+
+.defRotate {
+	width: 6em;
+	height: 8em;
+	margin: 0em 0em 0.5em 1em;
+	-webkit-transform: rotate(90deg);
+}
+
+.actionButton {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.userSplitCardStack {
+	border-collapse: seperate;
+	border-spacing: 3em 0em;
+}
+
+.splitBetText {
+	text-align: center;
+	color: red;
+}
+
+.splitMinTD {
+	padding-top: 0;
+	vertical-align: top;
+}

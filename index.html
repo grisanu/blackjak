@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+   		<title>Let's Play Blackjack!</title>
+   		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+   		<h1 style="text-align: center; margin: 5px 0px 5px">BLACKJACK</h1>
+   		<div align="center">
+   			<input id = "eightDecks" title ="8-deck Blackjack" alt ="8-deck Blackjack" type="button" onclick = "changeDeckNo(8);" value = "8-deck"/>
+   			<input id = "sixDecks" title ="6-deck Blackjack" alt ="6-deck Blackjack" type="button" onclick = "changeDeckNo(6);" value = "6-deck"/>
+   			<input id = "fourDecks" title ="4-deck Blackjack" alt ="4-deck Blackjack" type="button" onclick = "changeDeckNo(4);" value = "4-deck"/>
+   			<input id = "twoDecks" title ="2-deck Blackjack" alt ="2-deck Blackjack" type="button" onclick = "changeDeckNo(2);" value = "2-deck"/>
+   			<input id = "oneDecks" title ="1-deck Blackjack" alt ="1-deck Blackjack" type="button" onclick = "changeDeckNo(1);" value = "1-deck"/>
+   			<p style="text-align: center; margin: 0">Dealer <strong>stands on soft 17.</strong> Blackjack pays <strong>3 to 2</strong>.</p>
+   			<p style="text-align: center; margin: 0">Double after splitting. No re-splitting of Aces. Late Surrender.</p>
+			<p style="text-align: center; margin: 0; display: inline-block">You have won</p>
+			<h4 id = "betsWon" style="text-align: center; margin:0; display: inline-block">$0</h4>
+			<p style="text-align: center; margin: 0; display: inline-block">and your winning percentage is </p>
+			<h4 id="winPercent" style="text-align: center; margin: 0; display: inline-block">0%</h4>
+				<br>
+			<h4 id= "card_count" style="text-align: center; margin: 0; display: inline-block"></h4>
+			<p style="text-align: center; margin: 0; display: inline-block"> out of</p>
+			<p id = "deck_total" style="text-align: center; margin: 0; display: inline-block"></p>
+			<p style="text-align: center; margin: 0; display: inline-block">cards remaining in deck.</p>
+   		</div>
+   		<hr style="clear: both;"/>
+   </head>
+   
+   <body>
+   					<!--initial DEAL and bets-->
+<!-- display of dealer -->
+		<table align = "center"> 
+			<tr>
+				<th style="text-align: center">Dealer</th>
+				<td id = "insuranceText"><input id = "insuranceButton" title ="Insurance bet equal to half of the original bet" alt ="Insurance bet equal to half of the original bet" type="button" onclick = "insuranceBet();" value = "INSURANCE"/></td>
+				<td id = "insuranceBet" style="text-align: center; color: blue"></td>
+			</tr>
+		</table>
+		
+		<table align = "center">
+			<tr id = "dealerStatus">
+				<td id = "dealerStatusText" style="text-align: center"></td>
+    			<td id = "dealerS" style="text-align: center"></td>
+    		</tr>
+		</table>
+		
+		<table align = "center">  		
+			<tr id = "dealerStack"></tr>
+	  	</table>
+
+<!-- game status -->
+		<table align = "center">
+			<tr id = "gameStatus" style="text-align: center; font-size: 20px; color: red"></tr>
+		</table>
+<!-- bet gain/loss -->
+		<table align = "center">
+			<tr style="text-align: center; font-size: 20px; color: red">
+				<td title = "Your bets, gains and losses" id = "betStatus"></td>
+			</tr>
+		</table>
+
+<!-- display of user --> 
+		<table align = "center">  	
+    		<tr>
+    			<th id = "userName" style="text-align: center"></th>
+    			<td>
+    				<input id = "surrenderButton" title ="Late Surrender is allowed only if dealer does NOT have a Blackjack and before any other actions have been taken" type="button" onclick = "surrender_html();" value = "SURRENDER"/>
+    			</td>
+    		</tr>
+    	</table>
+    	
+    	<table align = "center">
+    		<tr>
+    			<td style="text-align: center">Current Balance: <strong>$</strong></td>
+    			<td id = "userCash" style="text-align: center; font-weight: bold"></td>
+    		</tr>
+    	</table>
+    	
+    	<table align = "center">
+    		<tr>
+    			<td id = "userStatusText" style="text-align: center"></td>
+    			<td id = "userStatus" style="text-align: center"></td>
+    			<td style="text-align: center">
+    				<input id = "hintButton" title ="Click to toggle helper on/off" alt ="Click to toggle helper on/off"type="button" onclick = "toggleHint();" value = "SHOW AMOUNT (W)"/>
+    			</td>
+    			<td style="text-align: center">
+    				<input id = "strategyButton" title ="Click to open a Blackjack basic strategy chart" alt ="Click to open a Blackjack basic strategy chart" type="button" onclick = "basicStrategy();" value = "BASIC STRATEGY"/>
+    			</td>
+    		</tr>
+    	</table>
+    	
+    	
+    	<table align = "center" id = "userCardTable">
+    		<tr id = "userStack"></tr>
+    	</table>
+
+<!-- buttons -->
+		<!-- bets -->
+		<table align = "center">
+			<tr>
+			<td>Place your bet: </td>
+			<td>
+				<input id = "fiveDol" title ="Place a $5 bet" alt ="Place a $5 bet" style="width: 70px;" type="button" onclick = "placeBet(5);" value = "$5 (1)"/>
+			<td>
+			<td>
+				<input id = "tenDol" title ="Place a $10 bet" alt ="Place a $10 bet" style="width: 70px;" type="button" onclick = "placeBet(10);" value = "$10 (2)"/>
+			<td>
+			<td>
+				<input id = "fifteenDol" title ="Place a $15 bet" alt ="Place a $15 bet" style="width: 70px;" type="button" onclick = "placeBet(15);" value = "$15 (3)"/>
+			<td>
+			<td>
+				<input id = "twentyDol" title ="Place a $20 bet" alt ="Place a $20 bet" style="width: 70px;" type="button" onclick = "placeBet(20);" value = "$20 (4)"/>
+			<td>
+			<td>
+				<input id = "fiftyDol" title ="Place a $50 bet" alt ="Place a $50 bet" style="width: 70px;" type="button" onclick = "placeBet(50);" value = "$50 (5)"/>
+			<td>
+			<td>
+				<input id = "seventyfiveDol" title ="Place a $75 bet" alt ="Place a $75 bet" style="width: 70px;" type="button" onclick = "placeBet(75);" value = "$75 (6)"/>
+			<td>
+			<td>
+				<input id = "onehundredDol" title ="Place a $100 bet" alt ="Place a $100 bet" style="width: 70px;" type="button" onclick = "placeBet(100);" value = "$100 (7)"/>
+			<td>
+			<td>
+				<input id = "onehundredfiftyDol" title ="Place a $150 bet" alt ="Place a $150 bet" style="width: 70px;" type="button" onclick = "placeBet(150);" value = "$150 (8)"/>
+			<td>
+			<td>
+				<input id = "twohundredDol" title ="Place a $200 bet" alt ="Place a $200 bet" style="width: 70px;" type="button" onclick = "placeBet(200);" value = "$200 (9)"/>
+			<td>
+			<td>
+				<input id = "bet_Button" title ="Confirm bet and deal" alt ="Confirm bet and deal" type="button" onclick = "confirmBet();" value = "BET (B)"/>
+			<td>
+			</tr>
+		</table>
+		
+		<!-- actions -->
+    	<table align = "center"> 
+    		<tr id = "userButtons"></tr>
+    	</table>
+    	
+    	<script type = "text/javascript">
+    		var user = prompt("Getting Started: \n0. Enter your name below. \n1. Select a deck size you want to play with. \n2. Pick an amount you want to bet. \n3. Bet. \n4. Start playing!", "Your Name");
+				
+			// user's name cannot be dealer
+				while (user === "dealer") {
+					user = prompt("Please enter a valid name:", "Your Name")
+				}
+			
+    		var game_deck = {count: 0},
+				board = {bet: {userStartCash: 500,// object to hold everything on the board
+								curr_bet: 0,
+								pot: 0,
+								bet_chosen: ""},
+						gameplay: {hint_var: false,
+									deck_no: 0,
+									deck_var: false,
+									curr_hand: 0,
+									win_count: 0,
+									round_count: 0,
+									split_var: [false],
+									split_times: 0},
+						cardsinfo: {}};
+    	</script>
+    	<script src = "helper.js"></script>
+    	<script src = "cardFunctions.js"></script>
+    	<script src = "housekeeping.js"></script>
+    	<script src = "buttons.js"></script>
+		<script type = "text/javascript">
+				
+				// customize minimum bet.
+				/*
+				curr_bet = prompt("Enter a minimum bet", "20");
+				curr_bet = Number(curr_bet);
+					//isNaN
+					minBetNaN = isNaN(curr_bet);
+				while (minBetNaN === true || curr_bet <= 0) {
+					if (minBetNaN === true) {
+						curr_bet = prompt("Please enter a valid number. Enter a minimum bet:", "20");
+						curr_bet = Number(curr_bet);
+						minBetNaN = isNaN(curr_bet);
+					} else {
+						curr_bet = prompt("Please enter a number greater than 0. Enter a minimum bet:", "20");
+						curr_bet = Number(curr_bet);
+						minBetNaN = isNaN(curr_bet);
+					}
+				};
+				*/
+			
+			document.getElementById("userName").innerHTML = user;
+			document.getElementById("userCash").innerHTML = board.bet.userStartCash;
+			
+			
+			// set key binding
+				// time since last move
+					var lastMove = 0;
+				// define a handler
+					function doc_keyUp(e) {
+						if (Date.now() - lastMove > 500) {
+						
+							// hit
+								if (e.keyCode === 65) { // letter a
+									hit_button_html();
+								} 
+							// double down
+								else if (e.keyCode === 83) { // letter s
+									dd_button_html();
+								} 
+							// split
+								else if (e.keyCode === 68) { // letter d
+									split_button_html();
+								} 
+							// stand
+								else if (e.keyCode === 70) { // letter f
+									stand_button_html();
+								} 
+							// new hand
+								else if (e.keyCode === 71) { // letter g
+									newHand_button_html();
+								}
+							// confirm bet
+								else if (e.keyCode === 66) { // letter b
+									confirmBet();
+								}
+							// show amount
+								else if (e.keyCode === 87) { // letter w
+									toggleHint();
+								}
+							// $5
+								else if (e.keyCode === 49) { // letter 1
+									placeBet(5);
+								}
+							// $10
+								else if (e.keyCode === 50) { // letter 2
+									placeBet(10);
+								}
+							// $15
+								else if (e.keyCode === 51) { // letter 3
+									placeBet(15);
+								}
+							// $20
+								else if (e.keyCode === 52) { // letter 4
+									placeBet(20);
+								}
+							// $50
+								else if (e.keyCode === 53) { // letter 5
+									placeBet(50);
+								}
+							// $75
+								else if (e.keyCode === 54) { // letter 6
+									placeBet(75);
+								}
+							// $100
+								else if (e.keyCode === 55) { // letter 7
+									placeBet(100);
+								}
+							// $150
+								else if (e.keyCode === 56) { // letter 8
+									placeBet(150);
+								}
+							// $200
+								else if (e.keyCode === 57) { // letter 9
+									placeBet(200);
+								};
+																
+							lastMove = Date.now();
+						};
+					}
+				// adding event listener
+					document.addEventListener('keyup', doc_keyUp, false);
+				
+			//pre-picking a deck
+				playagain();
+
+		</script>
+		
+	</body>
+   
+</html>
