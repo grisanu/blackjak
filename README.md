@@ -8,7 +8,7 @@
 ####Place Initial Bet:
 ![screen shot 2016-08-28 at 15 40 10](https://cloud.githubusercontent.com/assets/8594433/18037352/4b3bf7a0-6d36-11e6-9f93-969028389760.png)
 
-####Hit, Double Down, Split or Stand
+####Hit, Double Down, Split, Stand, Surrender or take Insurance
 ![screen shot 2016-08-28 at 15 40 29](https://cloud.githubusercontent.com/assets/8594433/18037355/4b4173e2-6d36-11e6-9e0b-e17039817c3c.png)
 
 ####You Won!
