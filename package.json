@@ -1,10 +1,10 @@
 {
   "name": "blackjak",
   "version": "1.0.0",
-  "description": "## Usage",
-  "main": "buttons.js",
+  "description": "Single player Blackjack game",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mattgrisanu/blackjak/issues"
   },
-  "homepage": "https://github.com/mattgrisanu/blackjak#readme"
+  "homepage": "https://github.com/mattgrisanu/blackjak#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
